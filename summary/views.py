@@ -17,7 +17,7 @@ from newspaper import Config
 import json
 from PIL import Image
 import pytesseract
-from .secrets import secrets
+from .configkey import SECRET_KEY
 from decouple import config
 
 
@@ -41,7 +41,7 @@ def summary(request):
         file_type = ""
         myFile = ""
         prompt1 = ""
-        config = ""
+        config1 = ""
         try:
             if url == "":            
                 if request.FILES:
@@ -83,11 +83,11 @@ def summary(request):
                     return HttpResponseRedirect('/')            
             else:
                 user_agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0) Gecko/20100101 Firefox/78.0'
-                config = Config()
-                config.browser_user_agent = user_agent
-                config.request_timeout = 10
+                config1 = Config()
+                config1.browser_user_agent = user_agent
+                config1.request_timeout = 10
 
-                article = newspaper.Article(url=url, config=config)
+                article = newspaper.Article(url=url, config=config1)
                 print("AAARTICLEEEEEEEEEE", article)
                 article.download()
                 article.parse()
@@ -124,7 +124,8 @@ def summary(request):
                 if  len(prompt1) <= 50 :
                     raise PromptRaiseError
                 else:                        
-                    openai.api_key = config('SECRET_KEY')
+                    print("*****************************************",SECRET_KEY)
+                    openai.api_key = SECRET_KEY                
                     response = openai.Completion.create(
                         engine = engine,
                         prompt = prompt,
