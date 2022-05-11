@@ -18,6 +18,7 @@ import json
 from PIL import Image
 import pytesseract
 from .secrets import secrets
+from decouple import config
 
 
 FILE_TYPES = ['pdf','docx']
@@ -122,9 +123,8 @@ def summary(request):
             try:                
                 if  len(prompt1) <= 50 :
                     raise PromptRaiseError
-                else:    
-                    pass    
-                    openai.api_key = secrets.get('SECRET_KEY')
+                else:                        
+                    openai.api_key = config('SECRET_KEY')
                     response = openai.Completion.create(
                         engine = engine,
                         prompt = prompt,
