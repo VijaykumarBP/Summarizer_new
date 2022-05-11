@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" href="{% static 'styles/main.css' %}">
+    </head>
+    <body>
+        {% include 'navbar.html' %}
+            
+        {% block content %}
+
+        <div class="container">
+            <form action = "{% url 'summary_form' %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %} 
+                {% if messages %}
+                    <div class="messages">
+                    <center>
+                        {% for message in messages %}
+                            <h4{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</h4>
+                        {% endfor %}
+                    </center>
+                    </div>
+                {% endif %}
+                <table cellpadding="1" cellspacing="1" width="100%" style="border:1px solid teal; margin: 1px;" align="center" class="tablecontainer">
+                    <tr><td></td></tr>                    
+                    <tr width="50%">
+                        <td width="25%">
+                            <label> Article name&emsp;&emsp;&emsp;&emsp;&emsp13;&emsp14; :</label>
+                        </td>
+                        <td width="50%"> 
+                            <input type="text" name="article_name" style="width: 50ch; height: 30px;" placeholder="Enter article name">
+                        </td>
+                    </tr>
+                    <tr><td><br/></td></tr>
+                    <tr><td><br/></td></tr>
+                    <tr>
+                        <td>
+                            <label>URL&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;: </label>                              
+                        </td>
+                        <td>
+                            <input type="text" id="url" name="url" placeholder="Paste url here" style="width: 50ch; height: 30px;">
+                        </td>
+                        <td align="center">
+                            <input type="checkbox" name="audiocheck" id="audiocheck"><label for="audiocheck"> Tick if audio required </label></input>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><br/>
+                            <label> 
+                                <center>(OR)</center>                            
+                            </label>
+                        </td>
+                    </tr>
+                    <tr><td><br/></td></tr>
+                    <tr>                            
+                        <td>                                
+                            <label>Upload a File(pdf/docx)<br/>&emsp;&emsp;&emsp; (or)&emsp;&emsp;&emsp;&emsp;&emsp;&emsp14;:<br/> Image(jpg/png/jfif)&emsp;</label>                              
+                        </td>
+                        <td>
+                            <input type="file" id="myFile" name="myFile" onclick="myFunction_confirm()">            
+                        </td>
+                        <td align="center">
+                            <label>Engine:&emsp;</label>
+                            <select name="engine" width="50%">
+                                <option value="text-davinci-002" name="New Instruct Davinci">New Instruct Davinci</option>
+                                <option value="text-davinci-001" name="Instruct Davinci">Instruct Davinci</option>
+                                <option value="text-curie-001" name="Instruct Curie">Instruct Curie</option>
+                            </select>
+                        </td>
+                    </tr>        
+                    <tr>
+                        <td colspan="2"><br/>
+                            <label> 
+                                <center>(OR)</center>                            
+                            </label>
+                        </td>
+                    </tr>
+                    <tr><td><br/></td></tr>
+                    <tr>
+                        <td>
+                            <!-- <input type="text" placeholder="Paste article here" style="height: 400px; width: 400px;"> -->
+                            <label> Article&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp14;:</label>
+                        </td>
+                        <td>                   
+                            <textarea name = "prompt" rows="15  " cols="54" placeholder="Paste article here"></textarea><br/><br/>                            
+                        </td>
+                        <td align="center" style="vertical-align: top;">
+                            <table class="innertablecontainer">
+                                <tr>
+                                    <td style="width: 40%;" align="center">
+                                        <label>Max Length:</label>   
+                                    </td>
+                                    <td>
+                                        <div class="slidecontainer">                                        
+                                            <div class="tooltip">                                                        
+                                                <input type="range" min="1" max="4000" value="400" class="slider" id="myRange" name="myRange">                                
+                                                <span class="tooltiptext">The maximum number of tokens to generate summary. Requests can use upto 2,048 or 4,000 tokens shared between article and summary. The exact limit varies by engine. (One token is roughly 4 characters in normal English text)</span>                                                
+                                            </div>                                                
+                                        </div>
+                                    </td>     
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <h4>&emsp;Tokens: <input id="demo" type="text" size="3" maxlength="4"></h4>
+                                    </td>
+                                </tr>
+                                <tr><td><br/></td></tr>
+                                <tr>
+                                    <td colspan="2"> 
+                                        <input type="submit" value="Summarize" style="width: 400px; height: 100px;" id="Summarize">
+                                    </td>
+                                </tr>
+                            </table>                       
+                        </td>
+                    </tr>                    
+                </table>
+            </form>
+        </div>
+        {% endblock %}
+        <script>
+            var slider = document.getElementById("myRange");
+            var output = document.getElementById("demo");
+            output.value = slider.value;
+            slider.value = output.value;
+            
+            slider.oninput = function() {
+              output.value = this.value;
+            }
+
+            output.oninput = function() {
+              slider.value = this.value;
+            }
+        </script>
+        <script>
+            function myFunction_confirm() {
+                confirm("Please ensure not to upload any confidential document/image or content to be summarized on this tool!!")
+            }
+        </script>
+    </body>
+</html>

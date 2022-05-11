@@ -1,0 +1,20 @@
+{% extends 'home.html' %}
+
+{% block content %}
+
+    <center>
+    {% if rate == None and comments == "" %}
+        <h2>Thanks for visiting!!</h2>
+    {% elif rate == None and comments != "" %}
+        <h2>Thanks for providing your thoughts!!</h2>
+    {% elif rate != None and comments == "" %}
+        <h2>Thanks for providing your ratings!!</h2>
+    {% else %}
+        <h2>Thanks for providing your thoughts and rating us!!</h2>
+    {% endif %}
+    <center>
+
+    <h3> Click <a href="{% url '/' %}"> Home</a> to return to summarize a new article</h3>
+    <h3> Go <a href="{% url 'review_back' review_id %}"> Back</a> to view/copy summary or edit the ratings/comments </h3>
+
+{% endblock %}

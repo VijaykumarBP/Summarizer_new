@@ -1,0 +1,319 @@
+body {
+    display: flexbox;
+    justify-content: center;
+    align-items: center;
+    padding: 1em;
+    margin: 0 auto;
+    max-width: 96%;
+    background-color: beige;
+  }
+.tablecontainer{ 
+  padding: 25px;
+}
+.innertablecontainer{
+  padding-left: 25px;
+}
+
+.textarea{
+    font-size: 5px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.rate {
+    float: left;
+    height: 66px;
+    padding: -10px;
+}
+.rate:not(:checked) > input {
+    position: absolute;
+    top:-9999px;
+}
+.rate:not(:checked) > label {
+    float:right;
+    width:2em;
+    overflow: visible;
+    white-space:nowrap;
+    cursor:pointer;
+    font-size:42px;
+    color: teal;
+}
+.rate:not(:checked) > label:before {
+    content: '★ ';
+}
+.rate > input:checked ~ label {
+    color: #ffc700;    
+}
+.rate:not(:checked) > label:hover,
+.rate:not(:checked) > label:hover ~ label {
+    color: #deb217;  
+}
+.rate > input:checked + label:hover,
+.rate > input:checked + label:hover ~ label,
+.rate > input:checked ~ label:hover,
+.rate > input:checked ~ label:hover ~ label,
+.rate > label:hover ~ input:checked ~ label {
+    color: #c59b08;
+}
+.slidecontainer {
+    width: 120%; /* Width of the outside container */
+  }
+  
+  /* The slider itself */
+  .slider {
+    -webkit-appearance: none;  /* Override default CSS styles */
+    appearance: none;
+    width: 125%; /* Full-width */
+    height: 15px; /* Specified height */
+    background: #d3d3d3; /* Grey background */
+    outline: none; /* Remove outline */
+    opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+    -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+    transition: opacity .2s;
+  }
+  
+  /* Mouse-over effects */
+  .slider:hover {
+    opacity: 1; /* Fully shown on mouse-over */
+  }
+  
+  /* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
+  .slider::-webkit-slider-thumb {
+    -webkit-appearance: none; /* Override default look */
+    appearance: none;
+    width: 25px; /* Set a specific slider handle width */
+    height: 25px; /* Slider handle height */
+    background: #04AA6D; /* Green background */
+    cursor: pointer; /* Cursor on hover */
+  }
+  
+  .slider::-moz-range-thumb {
+    width: 25px; /* Set a specific slider handle width */
+    height: 25px; /* Slider handle height */
+    background: #04AA6D; /* Green background */
+    cursor: pointer; /* Cursor on hover */
+  }
+
+  /* Tooltip container */
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: beige; /* If you want dots under the hoverable text */
+  }
+  
+  /* Tooltip text */
+  .tooltip .tooltiptext {
+    visibility: hidden;
+    width: 240px;
+    background-color: green;
+    color: yellow;
+    text-align: center;
+    padding: 15px 0;
+    border-radius: 6px;   
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    z-index: 2;
+  }
+  .tooltip .tooltiptext::after {
+    content: " ";
+    position: absolute;
+    bottom: 100%;  /* At the top of the tooltip */
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent green transparent;
+  }
+  .tooltip .tooltiptext {
+    opacity: 0;
+    transition: opacity 1s;
+  }
+  
+  .tooltip:hover .tooltiptext {
+    opacity: 1;
+  }
+  
+  /* Show the tooltip text when you mouse over the tooltip container */
+  .tooltip:hover .tooltiptext {
+    visibility: visible;
+  }
+
+  .tdleft{
+    vertical-align: -15px;
+  }
+
+audio{
+    margin: 25px;
+    background-color: teal;
+    border: 1px dotted black;
+}
+audio:hover{
+    box-shadow: 0 8px 22px 0 rgb(37 44 97 / 45%), 0 4px 6px 0 rgb(93 100 148 / 40%);
+}
+
+img{
+    opacity: 0.8;
+}
+
+label{
+    white-space: nowrap;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 24px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 400;
+    word-spacing: 0px;
+    letter-spacing: normal;
+    text-indent: 0px;
+    text-rendering: auto;
+    text-transform: none;
+}
+
+select {
+    text-align: center;
+    width: 200px;
+    height: 24px;
+    margin: 1px;
+    font-size: 15px;
+}
+select:hover
+{
+  background-color: green;
+  color: yellow;
+}
+
+input[type="text"]
+{
+    font-size:20px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+textarea{
+    font-size: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#Summarize
+{
+    font-size:30px;
+    font-family: Arial, Helvetica, sans-serif;
+    box-shadow: #04AA6D;
+}
+#Summarize:hover
+{
+  background-color: green;
+  color: yellow;
+}
+
+#audiocheck{
+  opacity: 0.5;
+}
+#audiocheck:hover{
+  opacity: 1;
+  cursor: pointer;
+}
+#audiocheck:after{
+  color: yellow;
+  background-color: yellow;
+  transform: rotate();
+}
+#audiocheck:checked{
+  color: yellow;
+  background-color: yellow;
+  transform: rotate();
+}
+
+
+#myFile
+{
+    font-size:15px;
+    font-family: Arial, Helvetica, sans-serif;
+    box-shadow: #04AA6D;
+}
+#myFile:hover
+{
+  background-color: green;
+  color: yellow;
+}
+
+.btn{
+    font-size: 10px;
+    height: 15px;
+    margin: 2px;
+  }
+
+
+button{    
+    display: inline-block;
+    outline: 0;
+    border: 0;
+    cursor: pointer;
+    font-weight: 600;
+    color: teal;
+    font-size: 14px;
+    height: 38px;
+    padding: 8px 24px;
+    border-radius: 50px;
+    background-image: linear-gradient(180deg,#fff,#f5f5fa);
+    box-shadow: 0 4px 11px 0 rgb(37 44 97 / 15%), 0 1px 3px 0 rgb(93 100 148 / 20%);
+    transition: all .2s ease-out;
+}
+button:hover{
+        box-shadow: 0 8px 22px 0 rgb(37 44 97 / 45%), 0 4px 6px 0 rgb(93 100 148 / 40%);
+    }
+  
+
+h1{
+    
+    white-space: pre-line;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 50px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 400;
+    word-spacing: 0px;
+    letter-spacing: normal;
+    text-indent: 0px;
+    text-rendering: auto;
+    text-transform: none;
+}
+
+h2{  
+    white-space: pre-line;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 28px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 400;
+    word-spacing: 0px;
+    letter-spacing: normal;
+    text-indent: 0px;
+    text-rendering: auto;
+    text-transform: none;
+}
+
+h3{
+    white-space: pre-line;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 22px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 400;
+    word-spacing: 0px;
+    letter-spacing: normal;
+    text-indent: 0px;
+    text-rendering: auto;
+    text-transform: none;
+}
+
+h4{
+    white-space: pre-line;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 600;
+    word-spacing: 0px;
+    letter-spacing: normal;
+    text-indent: 0px;
+    text-rendering: auto;
+    text-transform: none;
+}

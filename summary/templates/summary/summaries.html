@@ -1,0 +1,115 @@
+{% extends 'home.html' %}
+
+{% block content %}
+<!-- <center><a href="{% url '/' %}"><h4>Home</h4></a> </center> -->
+<script type="text/javascript">
+    window.history.forward();
+    function noBack() {
+        window.history.forward();
+    }
+</script>
+
+<table cellpadding="5" cellspacing="2" width="100%" style="border:1px solid black;">
+    <tr width="80%">
+        <td width = "75%">
+            <h2>Detected Language: {% if language == "es" %}Spanish{% elif language == "de" %}German{% elif language == "nl" %}Dutch{% elif language == "fr" %}French{% elif language == "af" %}Afrikaans{% elif language == "ar" %}Arabic{% elif language == "bg" %}Bulgarian{% elif language == "cs" %}Czech{% elif language == "da" %}Danish{% elif language == "el" %}Greek{% elif language == "fi" %}Finnish{% elif language == "ja" %}Japanese{% elif language == "ko" %}Chinese{% else %}English{% endif %}
+            </h2>
+            <h2>Summary:</h2>
+            <textarea rows="10" cols="90" id="summarized" readonly="True">
+                {{ summary }}
+            </textarea>
+        </td>
+        <td>
+            <button onclick="myFunction()">Copy Summary</button><br/><br/>
+            {% if audio != "" %}
+                <audio controls="controls">     
+                <source src = "media/audios/{{ audio }}.mp3" type="audio/mp3">
+                </audio>
+            {% endif %}
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <form action="{% url 'reviews' form.id %}" method="POST">
+                {% csrf_token %}
+                <table width="100%" cellpadding="3" cellspacing="1">
+                    <tr>
+                        <td width="21%">
+                            <h3>Rate the above Summary: </h3>
+                        </td>
+                        <td>
+                            <div class="rate">
+                                <input type="radio" id="star5" name="rate" value="5" />
+                                <label for="star5" title="Excellent"></label>
+                                <input type="radio" id="star4" name="rate" value="4" />
+                                <label for="star4" title="Above Average"></label>
+                                <input type="radio" id="star3" name="rate" value="3" />
+                                <label for="star3" title="Average"></label>
+                                <input type="radio" id="star2" name="rate" value="2" />
+                                <label for="star2" title="Below Average"></label>
+                                <input type="radio" id="star1" name="rate" value="1" />
+                                <label for="star1" title="Poor" ></label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div class="textarea">
+                                <textarea name="comments" rows="6" cols="40" placeholder="Any thoughts for us to improve?"></textarea>
+                            </div>
+                            <div class="btn">
+                                <input type="submit" value="Post" onclick="getFeedback(rate,comments)">
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </td>
+    </tr>
+    <tr width="85%">
+        <td colspan="2">
+            <h2>Article name:</h2><h3>{{ article_name }}</h3>
+            <h2>Your article:</h2><h3>{{ prompt }}</h3>
+            <h2>Engine:</h2> <h3>{{ engine }}</h3>
+        </td>
+    </tr>
+</table>
+
+<script>
+    function myFunction() 
+    {
+        /* Get the text field */
+        var copyText = document.getElementById("summarized");
+    
+        /* Select the text field */
+        copyText.select();
+        copyText.setSelectionRange(0, 99999); /* For mobile devices */
+    
+        /* Copy the text inside the text field */
+        navigator.clipboard.writeText(copyText.value);
+    
+        /* Alert the copied text */
+        alert("Copied the text: " + copyText.value);
+    }
+</script>
+
+<script>
+    function getFeedback(rate,comments) 
+    {
+        $.ajax(
+        {
+        url: 'reviews',
+        data : {
+            'rate': rate,
+            'comments': comments
+        },
+        success: function (data) {
+            $("#review_id").html(data);
+        }
+        });
+    }
+</script>
+
+{% endblock %}
+
+</script>

@@ -1,0 +1,25 @@
+{% extends 'home.html' %}
+
+{% block content %}
+
+<form name="myForm" id="myForm"  action="{% url 'response' %}" enctype="multipart/form-data">
+    {{ form.as_p}}
+    <input type="submit">
+</form>
+
+<!-- <script type="text/javascript">
+    window.onload=function(){
+        var auto = setTimeout(function(){ autoRefresh(); }, 1);
+
+        function submitform(){
+          document.forms["myForm"].submit();
+        }
+
+        function autoRefresh(){
+        //    clearTimeout(auto);
+           auto = setTimeout(function(){ submitform(); }, 1);
+        }
+    }
+</script> -->
+
+{% endblock %}
