@@ -41,7 +41,7 @@ def summary(request):
         file_type = ""
         myFile = ""
         prompt1 = ""
-        print("URL&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&",url)
+        config = ""
         try:
             if url == "":            
                 if request.FILES:
