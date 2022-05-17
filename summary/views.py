@@ -19,6 +19,7 @@ from PIL import Image
 import pytesseract
 from .configkey import SECRET_KEY
 from decouple import config
+from django.core.cache import cache # This is the memcache cache.
 
 
 FILE_TYPES = ['pdf','docx']
@@ -26,6 +27,7 @@ FILE_TYPES_IMG = ['jpg','jpeg','jfif','png','JPG','JPEG','JFIF','PNG']
 
 # Create your views here.
 def test(request):
+    cache.clear()    
     return render(request, 'home.html')
 
 class Error(Exception):
@@ -67,7 +69,7 @@ def summary(request):
                         prompt1 = '\n'.join(fullText)
                     elif file_type in FILE_TYPES_IMG:
                         pytesseract.pytesseract.tesseract_cmd = 'C:/Users/VI20279003/AppData/Local/Programs/Tesseract-OCR/tesseract.exe'
-                        # pytesseract.pytesseract.tesseract_cmd = 'https://github.com/VijaykumarBP/News_Summairzer/tree/main/static/tesseract.exe'                        
+                        # pytesseract.pytesseract.tesseract_cmd = 'https://github.com/VijaykumarBP/Summarizer_new/blob/main/static/static.zip/tesseract.exe'
                         im = Image.open(myFile)
                         prompt1 = pytesseract.image_to_string(im)
                     elif file_type not in FILE_TYPES and file_type not in FILE_TYPES_IMG and prompt1=="" and url=="":
@@ -78,8 +80,8 @@ def summary(request):
                         elif file_type not in FILE_TYPES_IMG:
                             messages.error(request,"Please upload images in (JPG/PNG/JFIF) formats only")
                         return HttpResponseRedirect('/')
-                except:
-                    messages.error(request,"The file seems to be invalid, please upload a valid file!!")
+                except Exception as ei:
+                    messages.error(request,ei)
                     return HttpResponseRedirect('/')            
             else:
                 user_agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0) Gecko/20100101 Firefox/78.0'
@@ -108,7 +110,11 @@ def summary(request):
             messages.error(request,e)
             return HttpResponseRedirect('/')
         
-        language = detect(prompt1)
+        try:
+            language = detect(prompt1)
+        except:
+            messages.error(request,"There's no text in the provided URL, please paste a valid URL!!")
+            return HttpResponseRedirect('/')
         print('DETECTED', language)
         engine = request.POST['engine']
         # language = request.POST['language']
