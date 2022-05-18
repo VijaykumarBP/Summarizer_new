@@ -2,11 +2,18 @@ body {
     display: flexbox;
     justify-content: center;
     align-items: center;
-    padding: 0em;
-    margin: 15px;
-    max-width: 95%;
-    background-color: black;
+    padding: 1em;
+    margin: 0 auto;
+    max-width: 96%;
+    background-color: beige;
   }
+.tablecontainer{ 
+  padding: 25px;
+}
+.innertablecontainer{
+  padding-left: 25px;
+}
+
 .textarea{
     font-size: 5px;
     font-family: Arial, Helvetica, sans-serif;
@@ -138,6 +145,7 @@ audio{
     background-color: teal;
     border: 1px dotted black;
 }
+
 audio:hover{
     box-shadow: 0 8px 22px 0 rgb(37 44 97 / 45%), 0 4px 6px 0 rgb(93 100 148 / 40%);
 }
@@ -171,6 +179,8 @@ select:hover
 {
   background-color: green;
   color: yellow;
+  content: attr(title);
+  font-size: 20px;
 }
 
 input[type="text"]
