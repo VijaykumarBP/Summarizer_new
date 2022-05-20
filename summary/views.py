@@ -89,8 +89,7 @@ def summary(request):
                 config1.browser_user_agent = user_agent
                 config1.request_timeout = 10
 
-                article = newspaper.Article(url=url, config=config1)
-                print("AAARTICLEEEEEEEEEE", article)
+                article = newspaper.Article(url=url, config=config1)                
                 article.download()
                 article.parse()
 
@@ -124,14 +123,14 @@ def summary(request):
             audiocheck = request.POST['audiocheck']
         except:
             audiocheck = False
-        
         while True:
             try:                
                 if  len(prompt1) <= 50 :
                     raise PromptRaiseError
-                else:                        
-                    print("*****************************************",SECRET_KEY)
-                    openai.api_key = SECRET_KEY                
+                else:                 
+                    # os.environ.get       
+                    print("*****************************************",os.environ["OPENAI_API_KEY"])
+                    openai.api_key = os.environ["OPENAI_API_KEY"]                
                     response = openai.Completion.create(
                         engine = engine,
                         prompt = prompt,
