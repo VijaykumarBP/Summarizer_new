@@ -1,1 +1,1 @@
-SECRET_KEY="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"
+SECRET_KEY="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"

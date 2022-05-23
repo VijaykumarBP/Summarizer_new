@@ -129,8 +129,8 @@ def summary(request):
                     raise PromptRaiseError
                 else:                 
                     # os.environ.get       
-                    print("*****************************************",os.environ["OPENAI_API_KEY"])
-                    openai.api_key = os.environ["OPENAI_API_KEY"]                
+                    # print("*****************************************",os.environ["OPENAI_API_KEY"])
+                    openai.api_key = SECRET_KEY
                     response = openai.Completion.create(
                         engine = engine,
                         prompt = prompt,
