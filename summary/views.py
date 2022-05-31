@@ -56,9 +56,13 @@ def summary(request):
                     if file_type == "pdf":
                         # pdfFileObj = open(myFile, 'rb')
                         with pdfplumber.open(myFile) as pdf:
-                            first_page = pdf.pages[0]
-                            print(first_page.extract_text())                              
-                            prompt1 += first_page.extract_text()
+                            # first_page = pdf.pages[0]
+                            # print(first_page.extract_text()) 
+                            # prompt1 += first_page.extract_text()
+                            for page in pdf.pages:
+                                # print(page.extract_text())
+                                # page_content = pdf.pages[page]
+                                prompt1 += page.extract_text()                          
                     elif file_type == "docx":
                         doc = docx.Document(myFile)
                         print(len(doc.paragraphs))
