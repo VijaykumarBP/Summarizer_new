@@ -103,7 +103,8 @@ def summary(request):
 
                                 print("IMAGE PATH: ",image_path)
                                 # save merged image
-                                merged_image.save(image_path)                                                                
+                                merged_image.save(image_path)
+                                #Saving                                                                
 
                                 pytesseract.pytesseract.tesseract_cmd = 'C:/Users/VI20279003/AppData/Local/Programs/Tesseract-OCR/tesseract.exe'
                                 print(merged_image)
