@@ -1,6 +1,7 @@
 import uuid
 from django.shortcuts import redirect, render
 from django.http import HttpResponse, HttpResponseRedirect
+from numpy import save
 import openai
 import gtts
 from .models import Prompt, PromptReview, Review
@@ -20,6 +21,8 @@ import pytesseract
 from .configkey import SECRET_KEY
 from decouple import config
 from django.core.cache import cache # This is the memcache cache.
+from pdf2image import convert_from_path, convert_from_bytes
+from django.core.files.storage import FileSystemStorage
 
 
 FILE_TYPES = ['pdf','docx']
@@ -44,11 +47,14 @@ def summary(request):
         myFile = ""
         prompt1 = ""
         config1 = ""
+        folder = "media/uploaded"
         try:
             if url == "":            
                 if request.FILES:
                     myFile = request.FILES['myFile']
                     file_type = str(myFile).split('.')[-1]
+                    fs = FileSystemStorage(location=folder) #defaults to   MEDIA_ROOT
+                    myFile_name = fs.save(myFile.name, myFile)
                 else:
                     prompt1 = request.POST['prompt']
 
@@ -62,10 +68,50 @@ def summary(request):
                             for page in pdf.pages:
                                 # print(page.extract_text())
                                 # page_content = pdf.pages[page]
-                                prompt1 += page.extract_text()                          
+                                prompt1 += page.extract_text()   
+                                # print(prompt1)
+                            if prompt1 == "":
+                                pdf_path = "media/uploaded/"+myFile_name 
+                                print("PDF PATH:!!!!!!!!!!!", pdf_path)                     
+                                images = convert_from_path(pdf_path=pdf_path, poppler_path=r'C:\Vj\Project\Django\news_summarizer_project\poppler-0.68.0\bin')
+                                output_folder='media/Docs'
+                                temp_images = []
+                                for i in range(len(images)):                                    
+                                    image_path = f'{output_folder}/{myFile_name}{i}.jpg'                            
+                                    images[i].save(image_path, 'JPEG')
+                                    temp_images.append(image_path)                                        
+
+                                # read images into pillow.Image
+                                imgs = list(map(Image.open, temp_images))
+
+                                # find minimum width of images
+                                min_img_width = max(i.width for i in imgs)
+
+                                # find total height of all images
+                                total_height = 0
+                                for i, img in enumerate(imgs):
+                                    total_height += imgs[i].height
+
+                                # create new image object with width and total height
+                                merged_image = Image.new(imgs[0].mode, (min_img_width, total_height))
+
+                                # paste images together one by one
+                                y = 0
+                                for img in imgs:
+                                    merged_image.paste(img, (0, y))
+                                    y += img.height
+
+                                print("IMAGE PATH: ",image_path)
+                                # save merged image
+                                merged_image.save(image_path)                                                                
+
+                                pytesseract.pytesseract.tesseract_cmd = 'C:/Users/VI20279003/AppData/Local/Programs/Tesseract-OCR/tesseract.exe'
+                                print(merged_image)
+                                # pytesseract.pytesseract.tesseract_cmd = 'https://github.com/VijaykumarBP/Summarizer_new/blob/main/static/static.zip/tesseract.exe'
+                                im = Image.open(image_path)
+                                prompt1 = pytesseract.image_to_string(im)                       
                     elif file_type == "docx":
-                        doc = docx.Document(myFile)
-                        print(len(doc.paragraphs))
+                        doc = docx.Document(myFile)                        
                         fullText = []
                         for para in doc.paragraphs:
                             fullText.append(para.text)
@@ -183,7 +229,7 @@ def summary(request):
         
         else:
             text_save=""
-            
+        print("SAVE POINT")
         form = Prompt.objects.create(article_name=article_name, prompt=prompt, engine=engine, language=language, summary=summary, audio=text_save, myRange=myRange, myFile=myFile, url=url)
         form.save()
         review_id = form.id
