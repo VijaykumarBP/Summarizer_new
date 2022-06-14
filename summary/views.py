@@ -47,14 +47,16 @@ def summary(request):
         myFile = ""
         prompt1 = ""
         config1 = ""
-        folder = "media/uploaded"
+        folder = "media/temp"        
         try:
             if url == "":            
                 if request.FILES:
                     myFile = request.FILES['myFile']
                     file_type = str(myFile).split('.')[-1]
-                    fs = FileSystemStorage(location=folder) #defaults to   MEDIA_ROOT
+                    fs = FileSystemStorage(location=folder) #defaults to MEDIA_ROOT
                     myFile_name = fs.save(myFile.name, myFile)
+                    print("myFile_name", myFile_name)
+                    print("myFile.name", myFile.name)
                 else:
                     prompt1 = request.POST['prompt']
 
@@ -71,7 +73,7 @@ def summary(request):
                                 prompt1 += page.extract_text()   
                                 # print(prompt1)
                             if prompt1 == "":
-                                pdf_path = "media/uploaded/"+myFile_name 
+                                pdf_path = "media/temp/"+myFile_name 
                                 print("PDF PATH:!!!!!!!!!!!", pdf_path)                     
                                 images = convert_from_path(pdf_path=pdf_path, poppler_path=r'C:\Vj\Project\Django\news_summarizer_project\poppler-0.68.0\bin')
                                 output_folder='media/Docs'
@@ -110,7 +112,12 @@ def summary(request):
                                 print(merged_image)
                                 # pytesseract.pytesseract.tesseract_cmd = 'https://github.com/VijaykumarBP/Summarizer_new/blob/main/static/static.zip/tesseract.exe'
                                 im = Image.open(image_path)
-                                prompt1 = pytesseract.image_to_string(im)                       
+                                prompt1 = pytesseract.image_to_string(im)  
+                                
+                                if os.path.exists(pdf_path):
+                                    os.remove(pdf_path)
+                                else:
+                                    print("FIle Doesn't exits!!!")                     
                     elif file_type == "docx":
                         doc = docx.Document(myFile)                        
                         fullText = []
@@ -231,9 +238,9 @@ def summary(request):
         else:
             text_save=""
         print("SAVE POINT")
-        form = Prompt.objects.create(article_name=article_name, prompt=prompt, engine=engine, language=language, summary=summary, audio=text_save, myRange=myRange, myFile=myFile, url=url)
+        form = Prompt.objects.create(article_name=article_name, prompt=prompt, engine=engine, language=language, summary=summary, audio=text_save, myRange=myRange, myFile=myFile, url=url)        
         form.save()
-        review_id = form.id
+        review_id = form.id        
         # print("FORM",form)
 
         context = {'engine':engine, 'language':language, 'article_name':article_name, 'prompt':prompt1, 'summary':summary, 'audio':text_save, 'form':form, 'review_id':review_id}
