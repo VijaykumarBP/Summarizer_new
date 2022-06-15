@@ -33,6 +33,11 @@ def test(request):
     cache.clear()    
     return render(request, 'home.html')
 
+# def test(request):
+#     cache.clear()
+#     context = {'engine':'engine', 'language':'language', 'article_name':'article_name', 'prompt':'prompt1', 'summary':'summary', 'audio':'text_save', 'form':'form', 'review_id':'review_id'}
+#     return render(request, 'summary/summaries.html', context)
+
 class Error(Exception):
     pass
 

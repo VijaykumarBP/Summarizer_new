@@ -30,7 +30,7 @@
     </tr>
     <tr>
         <td colspan="2">
-            <form action="{% url 'reviews' form.id %}" method="POST">
+            <form action="{% url 'reviews' form.id %}" method="POST"> <!-- changed 'form.id' to '1' -->
                 {% csrf_token %}
                 <table width="100%" cellpadding="3" cellspacing="1">
                     <tr>
